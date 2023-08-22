@@ -1,26 +1,11 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.core.model.cpm;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
+import com.emv.qrcode.core.utils.HexDecoder;
+import com.emv.qrcode.core.utils.HexEncoder;
+
 
 import com.emv.qrcode.core.exception.DecodeValueException;
+import org.apache.commons.lang.StringUtils;
 
 public class BERTLCompressedNumeric extends BERTLV {
 
@@ -48,15 +33,15 @@ public class BERTLCompressedNumeric extends BERTLV {
 
   private static byte[] toPrimitives(final String value) {
     try {
-      return Hex.decodeHex(value.length() % 2 == 0 ? value : value + "F");
-    } catch (final DecoderException ex) {
+      return HexDecoder.decodeHex(value.length() % 2 == 0 ? value : value + "F");
+    } catch (final Exception ex) {
       throw new DecodeValueException(value);
     }
   }
 
   @Override
   public String getStringValue() {
-    return Hex.encodeHexString(value, false);
+    return HexEncoder.encodeHex(value);
   }
 
 }

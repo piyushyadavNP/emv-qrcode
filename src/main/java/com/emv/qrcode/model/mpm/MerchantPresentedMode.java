@@ -1,37 +1,22 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.model.mpm;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
+import com.emv.qrcode.core.utils.HexEncoder;
+
 
 import com.emv.qrcode.core.CRC;
 import com.emv.qrcode.core.model.mpm.TagLengthString;
 import com.emv.qrcode.model.mpm.constants.MerchantPresentedModeCodes;
 
 import lombok.Getter;
+import org.apache.commons.lang.StringUtils;
 
 @Getter
 public class MerchantPresentedMode implements Serializable {
@@ -165,11 +150,11 @@ public class MerchantPresentedMode implements Serializable {
   }
 
   public String toHex() {
-    return Hex.encodeHexString(toString().getBytes(StandardCharsets.UTF_8), false);
+    return HexEncoder.encodeHex(toString().getBytes(StandardCharsets.UTF_8));
   }
 
   public String toBase64() {
-    return Base64.encodeBase64String(toString().getBytes(StandardCharsets.UTF_8));
+    return Base64.getEncoder().encodeToString(toString().getBytes(StandardCharsets.UTF_8));
   }
 
   @Override

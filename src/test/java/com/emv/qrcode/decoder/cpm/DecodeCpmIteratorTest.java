@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.decoder.cpm;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,19 +10,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.nio.ByteBuffer;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
+import com.emv.qrcode.core.utils.HexDecoder;
 import org.junit.Test;
 
 // @formatter:off
 public class DecodeCpmIteratorTest {
 
   @Test
-  public void testSuccessParseMinimal() throws DecoderException {
+  public void testSuccessParseMinimal() {
     final String encoded = "85054350563031611A4F07A0000000555"
       + "555570F1234567890123458D191220112345F";
 
-    final byte[] decodeHex = Hex.decodeHex(encoded);
+    final byte[] decodeHex = HexDecoder.decodeHex(encoded);
 
     final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(decodeHex);
 
@@ -53,7 +36,7 @@ public class DecodeCpmIteratorTest {
   }
 
   @Test
-  public void testSuccessParseLong() throws DecoderException {
+  public void testSuccessParseLong()  {
     final String encoded = "8505435056303161134F07A0000000555"
       + "555500850726F647563743161134F07A00000006666665008507"
       + "26F647563743262495A0812345678901234585F200E434152444"
@@ -61,7 +44,7 @@ public class DecodeCpmIteratorTest {
       + "6010A030000009F2608584FD385FA234BCC9F360200019F37046"
       + "D58EF13";
 
-    final byte[] decodeHex = Hex.decodeHex(encoded);
+    final byte[] decodeHex = HexDecoder.decodeHex(encoded);
 
     final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(decodeHex);
 
@@ -76,10 +59,10 @@ public class DecodeCpmIteratorTest {
   }
 
   @Test
-  public void testSuccessParseLongTag() throws DecoderException {
+  public void testSuccessParseLongTag() {
     final String encoded = "9F37046D58EF13";
 
-    final byte[] decodeHex = Hex.decodeHex(encoded);
+    final byte[] decodeHex = HexDecoder.decodeHex(encoded);
 
     final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(decodeHex);
 
@@ -94,7 +77,7 @@ public class DecodeCpmIteratorTest {
   }
 
   @Test
-  public void testSuccessParseLongLength() throws DecoderException {
+  public void testSuccessParseLongLength()  {
     final String encoded = "9F37046D58EF137081C08F01049F3201"
       + "0392249FFBFB7FEEC7B04367B3E4C671C30B4AEEADA2C193495"
       + "8DD6104D150EAFD3C052C970E8D90819052D778E3332B720F4F"
@@ -105,7 +88,7 @@ public class DecodeCpmIteratorTest {
       + "53B8CC6E9AD3DBC925CC72B96EDD783BB0D7B6E8E978BB355E4"
       + "55E7A5BCA57C495";
 
-    final byte[] decodeHex = Hex.decodeHex(encoded);
+    final byte[] decodeHex = HexDecoder.decodeHex(encoded);
 
     final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(decodeHex);
 
@@ -120,7 +103,7 @@ public class DecodeCpmIteratorTest {
   }
 
   @Test
-  public void testFailParse() throws DecoderException {
+  public void testFailParse()  {
     final String encoded = "8505435056303161134F07A0000000555"
         + "555500850726F647563743161134F07A00000006666665008507"
         + "26F647563743262495A0812345678901234585F200E434152444"
@@ -128,7 +111,7 @@ public class DecodeCpmIteratorTest {
         + "6010A030000009F2608584FD385FA234BCC9F360200019F37046"
         + "D58EF13";
 
-    final byte[] decodeHex = Hex.decodeHex(encoded);
+    final byte[] decodeHex = HexDecoder.decodeHex(encoded);
 
     final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(decodeHex);
 
@@ -147,19 +130,19 @@ public class DecodeCpmIteratorTest {
   }
 
   @Test
-  public void testFailParseOverflowValue() throws DecoderException {
+  public void testFailParseOverflowValue()  {
     final String encoded = "85204350563031";
 
-    final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(Hex.decodeHex(encoded));
+    final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(HexDecoder.decodeHex(encoded));
 
     assertThat(decodeIterator.hasNext(), equalTo(false));
   }
 
   @Test
-  public void testFailParseOverflowShortValue() throws DecoderException {
+  public void testFailParseOverflowShortValue()  {
     final String encoded = "4F83FFFFFFA00000005555";
 
-    final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(Hex.decodeHex(encoded));
+    final DecodeCpmIterator decodeIterator = new DecodeCpmIterator(HexDecoder.decodeHex(encoded));
 
     final IllegalStateException illegalStateException = catchThrowableOfType(() -> decodeIterator.hasNext(), IllegalStateException.class);
 

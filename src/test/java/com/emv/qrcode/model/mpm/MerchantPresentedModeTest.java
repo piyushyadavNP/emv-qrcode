@@ -1,30 +1,13 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.model.mpm;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
+import com.emv.qrcode.core.utils.HexDecoder;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.emv.qrcode.core.exception.PresentedModeException;
@@ -222,7 +205,7 @@ public class MerchantPresentedModeTest {
         + "yODAwMDJaSDAxMDLljJfkuqwwMjA05pyA5L2z6L+Q6L6TMDMwNGFiY2Q2NTAyMDA4MDM"
         + "yMDAxNkEwMTEyMjMzNDQ5OTg4NzcwNzA4MTIzNDU2Nzg2MzA0NDIyMA=="));
 
-    assertThat(new String(Base64.decodeBase64(merchantPresentMode.toBase64()), StandardCharsets.UTF_8), equalTo(merchantPresentMode.toString()));
+    assertThat(new String(Base64.getDecoder().decode(merchantPresentMode.toBase64()), StandardCharsets.UTF_8), equalTo(merchantPresentMode.toString()));
 
   }
 
@@ -276,7 +259,7 @@ public class MerchantPresentedModeTest {
   }
 
   @Test
-  public void testSuccessToHex() throws DecoderException, PresentedModeException {
+  public void testSuccessToHex() throws  PresentedModeException {
     final String encoded = "00020101021102160004hoge0104abcd520441115303156540523.72"
         + "5502015603500570155802CN5914BEST TRANSPORT6007BEIJING61071234567629501051"
         + "23450205678900305098760405543210505abcde0605fghij0705klmno0805pqres0905tu"
@@ -296,7 +279,7 @@ public class MerchantPresentedModeTest {
         + "3332303031364130313132323333343439393838373730373038313233343536373836333"
         + "03434323230"));
 
-    assertThat(new String(Hex.decodeHex(merchantPresentMode.toHex()), StandardCharsets.UTF_8), equalTo(merchantPresentMode.toString()));
+    assertThat(new String(HexDecoder.decodeHex(merchantPresentMode.toHex()), StandardCharsets.UTF_8), equalTo(merchantPresentMode.toString()));
 
   }
 

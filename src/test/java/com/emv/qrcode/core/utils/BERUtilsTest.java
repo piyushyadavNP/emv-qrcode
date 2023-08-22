@@ -1,39 +1,22 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.core.utils;
 
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 public class BERUtilsTest {
 
   @Test
   public void testSuccessValueOfTag() {
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x30 }), false), equalTo("30"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, 0x50 }), false), equalTo("5F50"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, 0x50 }), false), equalTo("5F8050"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, (byte) 0x90, 0x50 }), false), equalTo("5F809050"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, 0x50 }, 1), false), equalTo("50"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, 0x50 }, 2), false), equalTo("50"));
-    assertThat(Hex.encodeHexString(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, (byte) 0x90, 0x50 }, 3), false), equalTo("50"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x30 })), equalTo("30"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, 0x50 })), equalTo("5F50"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, 0x50 })), equalTo("5F8050"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, (byte) 0x90, 0x50 })), equalTo("5F809050"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, 0x50 }, 1)), equalTo("50"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, 0x50 }, 2)), equalTo("50"));
+    assertThat(HexEncoder.encodeHex(BERUtils.valueOfTag(new byte[] { 0x5F, (byte) 0x80, (byte) 0x90, 0x50 }, 3)), equalTo("50"));
   }
 
   @Test
@@ -86,26 +69,26 @@ public class BERUtilsTest {
 
   @Test
   public void testSuccessLengthToBytes() {
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(2), false), equalTo("02"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(4), false), equalTo("04"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(8), false), equalTo("08"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(16), false), equalTo("10"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(32), false), equalTo("20"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(64), false), equalTo("40"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(128), false), equalTo("8180"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(148), false), equalTo("8194"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(158), false), equalTo("819E"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(168), false), equalTo("81A8"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(178), false), equalTo("81B2"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(256), false), equalTo("820100"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(333), false), equalTo("82014D"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(512), false), equalTo("820200"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(1024), false), equalTo("820400"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(2048), false), equalTo("820800"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(4096), false), equalTo("821000"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(8192), false), equalTo("822000"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(60000), false), equalTo("82EA60"));
-    assertThat(Hex.encodeHexString(BERUtils.lengthOfValue(65535), false), equalTo("82FFFF"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(2)), equalTo("02"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(4)), equalTo("04"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(8)), equalTo("08"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(16)), equalTo("10"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(32)), equalTo("20"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(64)), equalTo("40"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(128)), equalTo("8180"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(148)), equalTo("8194"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(158)), equalTo("819E"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(168)), equalTo("81A8"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(178)), equalTo("81B2"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(256)), equalTo("820100"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(333)), equalTo("82014D"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(512)), equalTo("820200"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(1024)), equalTo("820400"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(2048)), equalTo("820800"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(4096)), equalTo("821000"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(8192)), equalTo("822000"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(60000)), equalTo("82EA60"));
+    assertThat(HexEncoder.encodeHex(BERUtils.lengthOfValue(65535)), equalTo("82FFFF"));
   }
 
   @Test

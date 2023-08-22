@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.decoder.cpm;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,8 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
+import com.emv.qrcode.core.utils.HexDecoder;
 import org.junit.Test;
 
 import com.emv.qrcode.core.exception.DuplicateTagException;
@@ -87,7 +70,7 @@ public class ConsumerPresentedModeDecoderTest {
     assertThat(commonDataTransparentTemplate.getUnpredictableNumber().getTag(), equalTo(TagTransactionProcessingCodes.ID_UNPREDICTABLE_NUMBER));
     assertThat(commonDataTransparentTemplate.getUnpredictableNumber().getStringValue(), equalTo("6D58EF13"));
 
-    final byte[] source2 = Hex.decodeHex("8505435056303185054350563031");
+    final byte[] source2 = HexDecoder.decodeHex("8505435056303185054350563031");
 
     final DuplicateTagException duplicateTagException = catchThrowableOfType(() -> DecoderCpm.decode(source2, ConsumerPresentedMode.class), DuplicateTagException.class);
 
@@ -97,7 +80,7 @@ public class ConsumerPresentedModeDecoderTest {
   }
 
   @Test
-  public void testSuccessDecodeUnionPay() throws PresentedModeException, IOException, DecoderException {
+  public void testSuccessDecodeUnionPay() throws PresentedModeException, IOException {
     final String encoded = "hQVDUFYwMWFWTwigAAADMwEBAlcRYmNgAQBxNnLSMSIBAAABiAFfNAEAYzOfJghWite85mtxi58nAYCfEBEHAAEDoAAAAQgwMDAwMDAwMZ82AhEiggIAAJ83BCJgSI4=";
 
     final ConsumerPresentedMode consumerPresentedMode = DecoderCpm.decode(encoded, ConsumerPresentedMode.class);

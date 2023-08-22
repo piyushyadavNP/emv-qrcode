@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.emv.qrcode.model.cpm;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -21,8 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
+import com.emv.qrcode.core.utils.HexEncoder;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.emv.qrcode.core.model.cpm.BERTLAlphanumeric;
@@ -58,7 +42,7 @@ public class ApplicationTemplateTest {
     applicationTemplate.setApplicationSpecificTransparentTemplate(applicationSpecificTransparentTemplate);
 
     assertThat(applicationTemplate.getTag(), equalTo(ConsumerPresentedModeFieldCodes.ID_APPLICATION_TEMPLATE));
-    assertThat(Hex.encodeHexString(applicationTemplate.getBytes(), false), equalTo(
+    assertThat(HexEncoder.encodeHex(applicationTemplate.getBytes()), equalTo(
         "61594F021234500431323334570212345A0212345F2004313233345F2D04313233345F5004313233"
       + "349F080212349F190212349F2404313233349F250212349F270212349F360212349F260212349F10"
       + "0212346306000431323334"));
@@ -86,7 +70,7 @@ public class ApplicationTemplateTest {
     applicationTemplate.setIssuerApplicationData(StringUtils.EMPTY);
 
     assertThat(applicationTemplate.getTag(), equalTo(ConsumerPresentedModeFieldCodes.ID_APPLICATION_TEMPLATE));
-    assertThat(Hex.encodeHexString(applicationTemplate.getBytes(), false), equalTo(StringUtils.EMPTY));
+    assertThat(HexEncoder.encodeHex(applicationTemplate.getBytes()), equalTo(StringUtils.EMPTY));
 
   }
 
@@ -112,7 +96,7 @@ public class ApplicationTemplateTest {
     applicationTemplate.setIssuerApplicationData(null);
 
     assertThat(applicationTemplate.getTag(), equalTo(ConsumerPresentedModeFieldCodes.ID_APPLICATION_TEMPLATE));
-    assertThat(Hex.encodeHexString(applicationTemplate.getBytes(), false), equalTo(StringUtils.EMPTY));
+    assertThat(HexEncoder.encodeHex(applicationTemplate.getBytes()), equalTo(StringUtils.EMPTY));
 
   }
 
